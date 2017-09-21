@@ -1,3 +1,5 @@
-﻿  graphics.cpp
-  test.vcxproj -> D:\Projects\Ahmadtest\Debug\test.exe
-  test.vcxproj -> D:\Projects\Ahmadtest\Debug\test.pdb (Partial PDB)
+﻿  player.cpp
+d:\projects\ahmadsprojectje\test\src\player.cpp(16): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\projects\ahmadsprojectje\test\src\player.cpp(51): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+  test.vcxproj -> D:\Projects\ahmadsprojectje\Debug\test.exe
+  test.vcxproj -> D:\Projects\ahmadsprojectje\Debug\test.pdb (Partial PDB)

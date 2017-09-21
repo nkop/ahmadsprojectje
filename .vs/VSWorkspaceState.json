@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\test"
+    "\\content",
+    "\\test",
+    "\\test\\src"
   ],
-  "SelectedNode": "\\test\\main.cpp",
+  "SelectedNode": "\\test\\src\\animatedsprite.cpp",
   "PreviewInSolutionExplorer": false
 }

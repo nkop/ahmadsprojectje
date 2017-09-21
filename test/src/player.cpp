@@ -73,9 +73,8 @@ void Player::changeDirection(float toX, float toY) {
 }
 
 void Player::movePlayerForward(std::string doAction) {
-    double correctedAngleRadians = Helper::degreesToRadians(this->_corrected_angle);
-    this->_dx = player_constants::WALK_SPEED * sin(correctedAngleRadians);
-    this->_dy = player_constants::WALK_SPEED * -cos(correctedAngleRadians);
+    this->_dx = player_constants::WALK_SPEED * 0;
+    this->_dy = player_constants::WALK_SPEED * -1;
     if(!waitForPrevAnimation) {
         if(doAction == "reload" | doAction == "shoot") {
             doReloadOrShoot(doAction);
@@ -86,15 +85,42 @@ void Player::movePlayerForward(std::string doAction) {
     this->playExtraAnimation("feet_walking");
 }
 
+void Player::movePlayerUpLeft(std::string doAction) {
+	this->_dx = player_constants::WALK_SPEED * -1;
+	this->_dy = player_constants::WALK_SPEED * -1;
+	if (!waitForPrevAnimation) {
+		if (doAction == "reload" | doAction == "shoot") {
+			doReloadOrShoot(doAction);
+		}
+		else {
+			this->playAnimation(doAction);
+		}
+	}
+	this->playExtraAnimation("feet_walking");
+}
+
+void Player::movePlayerUpRight(std::string doAction) {
+	this->_dx = player_constants::WALK_SPEED * 1;
+	this->_dy = player_constants::WALK_SPEED * -1;
+	if (!waitForPrevAnimation) {
+		if (doAction == "reload" | doAction == "shoot") {
+			doReloadOrShoot(doAction);
+		}
+		else {
+			this->playAnimation(doAction);
+		}
+	}
+	this->playExtraAnimation("feet_walking");
+}
+
 void Player::doReloadOrShoot(std::string doAction) {
     waitForPrevAnimation = true;
     this->playAnimation(doAction, false);
 }
 
 void Player::movePlayerBack(std::string doAction) {
-    double correctedAngleRadians = Helper::degreesToRadians((180 + this->_corrected_angle));
-    this->_dx = player_constants::OTHER_SPEED * sin(correctedAngleRadians);
-    this->_dy = player_constants::OTHER_SPEED * -cos(correctedAngleRadians);
+    this->_dx = player_constants::WALK_SPEED * 0;
+    this->_dy = player_constants::WALK_SPEED * 1;
     if(!waitForPrevAnimation) {
         if(doAction == "reload" | doAction == "shoot") {
             doReloadOrShoot(doAction);
@@ -106,9 +132,8 @@ void Player::movePlayerBack(std::string doAction) {
 }
 
 void Player::movePlayerLeft(std::string doAction) {
-    double correctedAngleRadians = Helper::degreesToRadians((-90 + this->_corrected_angle));
-    this->_dx = player_constants::OTHER_SPEED * sin(correctedAngleRadians);
-    this->_dy = player_constants::OTHER_SPEED * -cos(correctedAngleRadians);
+    this->_dx = player_constants::WALK_SPEED * -1;
+    this->_dy = player_constants::WALK_SPEED * 0;
     if(!waitForPrevAnimation) {
         if(doAction == "reload" | doAction == "shoot") {
             doReloadOrShoot(doAction);
@@ -119,10 +144,37 @@ void Player::movePlayerLeft(std::string doAction) {
     this->playExtraAnimation("feet_strafe_left");
 }
 
+void Player::movePlayerDownRight(std::string doAction) {
+	this->_dx = player_constants::WALK_SPEED * 1;
+	this->_dy = player_constants::WALK_SPEED * 1;
+	if (!waitForPrevAnimation) {
+		if ((doAction == "reload" || doAction == "shoot") && player_constants::WEAPON_READY <= 0) {
+			doReloadOrShoot(doAction);
+		}
+		else {
+			this->playAnimation("move");
+		}
+	}
+	this->playExtraAnimation("feet_strafe_right");
+}
+
+void Player::movePlayerDownLeft(std::string doAction) {
+	this->_dx = player_constants::WALK_SPEED * -1;
+	this->_dy = player_constants::WALK_SPEED * 1;
+	if (!waitForPrevAnimation) {
+		if ((doAction == "reload" || doAction == "shoot") && player_constants::WEAPON_READY <= 0) {
+			doReloadOrShoot(doAction);
+		}
+		else {
+			this->playAnimation("move");
+		}
+	}
+	this->playExtraAnimation("feet_strafe_right");
+}
+
 void Player::movePlayerRight(std::string doAction) {
-    double correctedAngleRadians = Helper::degreesToRadians((90 + this->_corrected_angle));
-    this->_dx = player_constants::OTHER_SPEED * sin(correctedAngleRadians);
-    this->_dy = player_constants::OTHER_SPEED * -cos(correctedAngleRadians);
+    this->_dx = player_constants::WALK_SPEED * 1;
+    this->_dy = player_constants::WALK_SPEED * 0;
     if(!waitForPrevAnimation) {
         if((doAction == "reload" || doAction == "shoot") && player_constants::WEAPON_READY <= 0 ) {
             doReloadOrShoot(doAction);
@@ -177,8 +229,16 @@ void Player::checkInput(Input input, Graphics &graphics) {
             bodymovement = "shoot";
         }
     }
-
-    if(input.isKeyHeld(SDL_SCANCODE_W)){
+	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+	if (keystate[SDL_SCANCODE_W] && keystate[SDL_SCANCODE_A])
+		movePlayerUpLeft(bodymovement);
+	else if (keystate[SDL_SCANCODE_S] && keystate[SDL_SCANCODE_D])
+		movePlayerDownRight(bodymovement);
+	else if (keystate[SDL_SCANCODE_W] && keystate[SDL_SCANCODE_D])
+		movePlayerUpRight(bodymovement);
+	else if (keystate[SDL_SCANCODE_S] && keystate[SDL_SCANCODE_A])
+		movePlayerDownLeft(bodymovement);
+	else if(keystate[SDL_SCANCODE_W]){
         movePlayerForward(bodymovement);
     }else if(input.isKeyHeld(SDL_SCANCODE_S)){
         movePlayerBack(bodymovement);

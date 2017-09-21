@@ -31,10 +31,12 @@ void Game::gameLoop() {
     SDL_Event event;
     this->_player = Player(graphics, "player", 300,300, 50);
     int LAST_UPDATE_TIME = SDL_GetTicks();
+	int x, y;
 
     while (true) {
         input.beginNewFrame();
-
+		SDL_GetMouseState(&x, &y);
+		this->_player.changeDirection(x, y);
         if (SDL_PollEvent(&event)){
             if (event.type == SDL_KEYDOWN) {
                 if(event.key.repeat == 0) {

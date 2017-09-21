@@ -31,8 +31,8 @@ void Graphics::blitSurface(SDL_Texture *texture, SDL_Rect *sourceRectangle, SDL_
        std::cout << "blitsurface " << SDL_GetError() << std::endl;
 	 }
 
-    _rendercount += 1;
-    std::cout << std::to_string(_rendercount) << std::endl;
+    //_rendercount += 1;
+    //std::cout << std::to_string(_rendercount) << std::endl;
 }
 
 

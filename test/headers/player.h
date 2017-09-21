@@ -19,7 +19,11 @@ public:
     void draw(Graphics &graphics);
     void update(float elapsedTime);
     void changeDirection(float toX, float toY);
+	void movePlayerUpLeft(std::string doAction);
     void movePlayerLeft(std::string doAction);
+	void movePlayerDownRight(std::string doAction);
+	void movePlayerUpRight(std::string doAction);
+	void movePlayerDownLeft(std::string doAction);
     void movePlayerRight(std::string doAction);
     void movePlayerBack(std::string doAction);
     void movePlayerForward(std::string doAction);
